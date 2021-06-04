@@ -2,20 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Country;
-use Doctrine\Inflector\Rules\Spanish\Rules;
+use App\Models\City;
+use App\Models\State;
 use Illuminate\Http\Request;
 
-class AdminController extends Controller
+class CityController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function byCity($id)
+    {
+        return City::where('state_id',$id)->get();
+    }
+
+
     public function index()
     {
-        return view('Admin.admin-home');
+        //
     }
 
     /**
@@ -25,8 +32,7 @@ class AdminController extends Controller
      */
     public function create()
     {
-        $countries = Country::all();
-        return view('Admin.admin-create-users')->with(compact('countries'));
+        //
     }
 
     /**
@@ -37,23 +43,16 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-       
-        if($request->user_password == $request->user_confirm_password){
-             $res ='entra';
-             return $res;
-        }else{
-            $res ='Las contraseñas no coinciden';
-            return redirect('/add-users')->with('Message','Las Contraseñas no coinciden');
-        }
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\City  $city
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(City $city)
     {
         //
     }
@@ -61,10 +60,10 @@ class AdminController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\City  $city
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(City $city)
     {
         //
     }
@@ -73,10 +72,10 @@ class AdminController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\City  $city
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, City $city)
     {
         //
     }
@@ -84,10 +83,10 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\City  $city
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(City $city)
     {
         //
     }

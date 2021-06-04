@@ -20,3 +20,4 @@ Route::get('/', function () {
 
 Route::get('admin/home',[App\Http\Controllers\AdminController::class,'index'])->name('home');
 Route::get('add-users',[App\Http\Controllers\AdminController::class,'create'])->name('add-users');
+Route::post('add-users',[App\Http\Controllers\AdminController::class,'store'])->name('add-users');

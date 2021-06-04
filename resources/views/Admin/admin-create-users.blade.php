@@ -13,7 +13,8 @@
                             Crear un Usuario
                         </div>
                         <div class="card-body">
-                            <form>
+                            <form method="POST" action="{{ route('add-users') }}"  >
+                                @csrf
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="mb-3">
@@ -60,11 +61,12 @@
                                     <div class="col-6">
                                         <div class="mb-3">
                                             <label class="form-label">País</label>
-                                            <select class="form-select" name="user_country" aria-label="Default select example">
-                                                <option selected>Open this select menu</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
+                                            <select class="form-select" name="user_country" id="select-country" aria-label="Default select example">
+                                                <option selected>Seleccione un País</option>
+                                                @foreach($countries as $countries){
+                                                    <option value="{{$countries->country_id}}">{{$countries->country_description}}</option>
+                                                }
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
@@ -76,11 +78,8 @@
                                     <div class="col-6">
                                         <div class="mb-3">
                                             <label class="form-label">Estado</label>
-                                            <select class="form-select" name="user_estado" aria-label="Default select example">
-                                                <option selected>Open this select menu</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
+                                            <select class="form-select" name="user_state" id="select-state" aria-label="Default select example">
+                                               
                                             </select>
                                         </div>
                                     </div>
@@ -88,11 +87,8 @@
                                     <div class="col-6">
                                         <div class="mb-3">
                                             <label class="form-label">Ciudad</label>
-                                            <select class="form-select" name="user_country" aria-label="Default select example">
-                                                <option selected>Open this select menu</option>
-                                                <option value="1">One</option>
-                                                <option value="2">Two</option>
-                                                <option value="3">Three</option>
+                                            <select class="form-select" name="user_city" id="select-city" aria-label="Default select example">
+                                               
                                             </select>
                                         </div>
                                     </div>
@@ -102,15 +98,18 @@
 
                                 <div class="row">                                   
                                     <div class="col-6">
+                                    
                                         <div class="mb-3">
-                                            <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-                                            <input type="password" class="form-control" name="user_password">
+                                            <label for="exampleInputPassword1" class="form-label" id="pasword">Contraseña</label>
+                                            <input type="password" class="form-control" name="user_password" id="password">
+                                            <div id="emailHelp" class="form-text">{{$errors}}</div>
+
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="mb-3">
-                                            <label for="exampleInputPassword1" class="form-label">Confirmar Contraseña</label>
-                                            <input type="password" class="form-control" name="user_confirm_password">
+                                            <label for="exampleInputPassword1" class="form-label" >Confirmar Contraseña</label>
+                                            <input type="password" class="form-control" name="user_confirm_password" id="password-confirm">
                                         </div>
                                     </div>
                                 </div>
@@ -126,4 +125,13 @@
            
         </div>
 
+
+        <script src="js/states.js">
+        
+      
+       
+        </script>
+        
 @include('Components/footer')
+        
+        
