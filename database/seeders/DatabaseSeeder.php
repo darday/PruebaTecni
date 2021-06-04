@@ -76,8 +76,8 @@ class DatabaseSeeder extends Seeder
             'user_ci'=>'060393500-8',
             'user_cellphone'=>'0603935008',
             'user_date'=>'1994-09-13',
-            'user_email'=>'admin@gmail.com',
-            'user_password'=>Hash::make('123456789'),
+            'email'=>'admin@gmail.com',
+            'password'=>Hash::make('123456789'),
             'user_city_id'=>1,
             'user_rol'=>1,
         ]);

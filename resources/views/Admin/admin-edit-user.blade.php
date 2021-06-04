@@ -19,20 +19,25 @@
                                     Session::get('Message2')
                                 }}@endif
                             </div>
-                            <form method="POST" action="{{ route('add-users') }}"  >
+                            <form method="POST" action="{{ route('update-users') }}"  >
                                 @csrf
+                            <!-- {{csrf_field()}}Seguridad -->
+                        <!-- {{method_field('PATCH')}} -->
+
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="mb-3">
                                             <label class="form-label">Nombre</label>
-                                            <input type="text" class="form-control"  name="user_name" required>
+                                            <input type="text" class="form-control"  name="user_name" value="{{$user->user_name}}" required>
                                         </div>
                                     </div>
 
                                     <div class="col-6">
                                     <div class="mb-3">
                                             <label class="form-label">Cédula</label>
-                                            <input type="text" class="form-control"  name="user_ci" required maxlength="11">
+                                            <input type="text" class="form-control"   value="{{$user->user_ci}}" disabled>
+                                            <input type="hidden" name="user_ci" value="{{$user->user_ci}}">
+
                                         </div>
                                     </div>
                                 </div>
@@ -41,14 +46,14 @@
                                     <div class="col-6">
                                         <div class="mb-3">
                                             <label class="form-label">Número de Celular</label>
-                                            <input type="text" class="form-control"  name="user_cellphone" maxlength="10">
+                                            <input type="text" class="form-control"  name="user_cellphone" value="{{$user->user_cellphone}}" maxlength="10">
                                         </div>
                                     </div>
 
                                     <div class="col-6">
                                     <div class="mb-3">
                                             <label class="form-label">Fecha de Nacimiento</label>
-                                            <input type="date" class="form-control"  name="user_date" required>
+                                            <input type="date" class="form-control"  name="user_date" value="{{$user->user_date}}" required>
                                         </div>
                                     </div>
                                 </div>
@@ -58,9 +63,9 @@
                                     <div class="col-6">
                                         <div class="mb-3">
                                             <label for="exampleInputEmail1" class="form-label">Email</label>
-                                            <input type="email" class="form-control" name="email">
-                                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                                            
+                                            <input type="email" class="form-control"  value="{{$user->email}}" disabled>
+                                            <!-- <input type="hidden" name="email" value="{{$user->email}}"> -->
+
                                         </div>
                                     </div>
 
@@ -124,7 +129,7 @@
 
 
                                 
-                                <button type="submit" class="btn btn-primary">Crear Usuario</button>
+                                <button type="submit" class="btn btn-primary">Actualizar Información</button>
                             </form>
                             
                         </div>
@@ -134,11 +139,12 @@
            
         </div>
 
+        <script type="text/javascript" src="/jquery-3.6.0.min.js"></script>
 
-        <script src="js/states.js">
+        <script src="../../js/states_edit.js">
         
-      
-       
+
+
         </script>
     @endsection
         

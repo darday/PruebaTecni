@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Country;
+use App\Models\User;
+use Carbon\Carbon;
 use Doctrine\Inflector\Rules\Spanish\Rules;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -35,12 +40,25 @@ class AdminController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+
+ 
+    public function store(Request $data)
     {
        
-        if($request->user_password == $request->user_confirm_password){
-             $res ='entra';
-             return $res;
+        if($data->user_password == $data->user_confirm_password){
+            User::create([
+                'user_name' => $data['user_name'],
+                'user_ci' => $data['user_ci'],
+                'user_cellphone' => $data['user_cellphone'],
+                'user_date' => $data['user_date'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'user_city_id'=>$data['user_city'],
+                'user_rol'=>$data['user_rol'],
+            ]);
+
+            return redirect('/add-users')->with('Message2','Usuario Agregado Exitosamente');
+            
         }else{
             $res ='Las contraseñas no coinciden';
             return redirect('/add-users')->with('Message','Las Contraseñas no coinciden');
@@ -53,9 +71,19 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
         //
+        //$users['user']= User::where('user_rol',2)->get();
+        $users['user']= DB::table('users')
+        ->join('cities','users.user_city_id','=','cities.city_id')
+        ->select('cities.city_description','users.user_name','users.user_ci','users.user_cellphone','users.user_date','users.email','users.id')
+        ->where('user_rol',2)
+        ->get();
+        
+        return view('Admin.admin-list-users',$users);
+
+
     }
 
     /**
@@ -66,7 +94,9 @@ class AdminController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user=User::findOrFail($id);
+        $countries = Country::all();
+        return view('Admin.admin-edit-user',compact('user','countries'));   
     }
 
     /**
@@ -76,9 +106,21 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+       
+        $email=$request->email;
+        $user2 = request() ->except(['_token','_method']);
+        $user=User::findOrFail(Auth::user()->id);
+         $user2["password"] = Hash::make($user2['password']);
+         $user->update($user2);
+
+        $users['user']= DB::table('users')
+        ->join('cities','users.user_city_id','=','cities.city_id')
+        ->select('cities.city_description','users.user_name','users.user_ci','users.user_cellphone','users.user_date','users.email','users.id')
+        ->where('user_rol',2)
+        ->get();
+        return view('Admin.admin-list-users',$users)->with('Messagge','Información guardada');
     }
 
     /**
@@ -87,8 +129,13 @@ class AdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($user)
     {
-        //
+        
+        User::destroy($user);
+
+
+
+        return redirect('/list-users')->with('Messagge','Usuario eliminada con Exito');
     }
 }
